@@ -14,24 +14,20 @@ public class DVD implements IDocument {
 		this.adulte = v_adulte;
 	}
 	
-	@Override
 	public int numero() {
 		return this.numero;
 	}
 
-	@Override
 	public void reservationPour(Abonne ab) throws ReservationException {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void empruntPar(Abonne ab) throws EmpruntException {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void retour() {
 		// TODO Auto-generated method stub
 		
