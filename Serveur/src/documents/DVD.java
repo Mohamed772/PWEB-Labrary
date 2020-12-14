@@ -33,5 +33,9 @@ public class DVD implements IDocument {
 		
 	}
 	
+	public String toString() {
+		return numero + " " + titre + " " + (this.adulte?"pour adulte":"Pour tous");
+		
+	}
 
 }

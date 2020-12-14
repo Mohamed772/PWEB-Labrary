@@ -1,11 +1,13 @@
 package utilisateurs;
 
+import java.time.LocalDate;
+
 public class Abonne {
 	int numero;
 	String nom;
-	String dateNaissance;
+	LocalDate dateNaissance;
 	
-	public Abonne(int v_numero, String v_nom, String v_dateNaissance) {
+	public Abonne(int v_numero, String v_nom, LocalDate v_dateNaissance) {
 		this.numero = v_numero;
 		this.nom = v_nom;
 		this.dateNaissance = v_dateNaissance;
@@ -19,7 +21,7 @@ public class Abonne {
 		return nom;
 	}
 	
-	public String getDateNaissance() {
+	public LocalDate getDateNaissance() {
 		return dateNaissance;
 	}
 	

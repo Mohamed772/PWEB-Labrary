@@ -3,11 +3,11 @@ package serveur;
 import java.io.*;
 import java.net.*;
 
-class Serveur implements Runnable {
+public class Serveur implements Runnable {
 	private ServerSocket listen_socket;
 	
 	// Cree un serveur TCP - objet de la classe ServerSocket
-	Serveur(int port) throws IOException {
+	public Serveur(int port) throws IOException {
 		listen_socket = new ServerSocket(port);
 	}
 
@@ -18,15 +18,21 @@ class Serveur implements Runnable {
 		try {
 			System.err.println("Lancement du serveur au port "+this.listen_socket.getLocalPort());
 			while(true) {
-				switch (this.listen_socket.getLocalPort()) {
+				switch ((int)(this.listen_socket.getLocalPort())) {
 					case 3000:
+						System.out.println("3000 case");
 						new Thread(new ServiceReservation(listen_socket.accept())).start();
+						
 						break;
 					case 4000:
+						System.out.println("4000 case");
 						new Thread(new ServiceEmprunt(listen_socket.accept())).start();
+						
 						break;
 					case 5000:
+						System.out.println("5000 case");
 						new Thread(new ServiceRetour(listen_socket.accept())).start();
+						
 						break;
 				}
 					
