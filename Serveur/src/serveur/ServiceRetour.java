@@ -8,7 +8,6 @@ public class ServiceRetour implements Runnable {
 		this.client = socket;
 	}
 
-	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 

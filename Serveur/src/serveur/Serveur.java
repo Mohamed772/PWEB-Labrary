@@ -36,7 +36,7 @@ class Serveur implements Runnable {
 		}
 		catch (IOException e) { 
 			try {this.listen_socket.close();} catch (IOException e1) {}
-			System.err.println("ArrÍt du serveur au port "+this.listen_socket.getLocalPort());
+			System.err.println("Arret du serveur au port "+this.listen_socket.getLocalPort());
 		}
 	}
 
