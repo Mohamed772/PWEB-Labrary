@@ -9,6 +9,7 @@ import documents.IDocument;
 import mediatheque.Mediatheque;
 import serveur.*;
 
+
 class ApplicationServeur {
 	private final static int PORTRESERVATION = 3000;
 	private final static int PORTEMPRUNT = 4000;
@@ -19,7 +20,12 @@ class ApplicationServeur {
 			initMediatheque();
 			//new Thread(new Serveur(PORTRESERVATION)).start();
 			new Thread(new Serveur(PORTEMPRUNT)).start();
+<<<<<<< Updated upstream:Serveur/src/applications/ApplicationServeur.java
 			//new Thread(new Serveur(PORTRETOUR)).start();
+=======
+			new Thread(new Serveur(PORTRETOUR)).start();
+			
+>>>>>>> Stashed changes:Serveur/src/serveur/ApplicationServeur.java
 		} catch (IOException e) {
 				System.err.println(e);			
 		}

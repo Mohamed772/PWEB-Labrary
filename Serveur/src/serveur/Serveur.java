@@ -35,10 +35,7 @@ public class Serveur implements Runnable {
 						
 						break;
 				}
-					
-				
-
-			}
+					}
 		}
 		catch (IOException e) { 
 			try {this.listen_socket.close();} catch (IOException e1) {}
