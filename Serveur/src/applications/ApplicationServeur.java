@@ -29,6 +29,8 @@ class ApplicationServeur {
 		Mediatheque mediatheque = Mediatheque.getInstance();
 		List<IDocument> list = new ArrayList<IDocument>();
 		list.add(new DVD(0, "JCVD", false));
+		list.add(new DVD(1, "Le man", false));
+		list.add(new DVD(2, "Seul Two", true));
 		mediatheque.setDocumentsDisponible(list);
 	}
 	

@@ -12,7 +12,7 @@ class ApplicationClient {
 		private final static String HOST = "localhost"; 
 	
 	public static void main(String[] args) throws IOException {
-		Socket socket = null;		
+		Socket socket = null;
 			// Cree une socket pour communiquer avec le service se trouvant sur la
 			// machine host au port PORT
 			socket = new Socket(HOST, PORT);
@@ -20,7 +20,6 @@ class ApplicationClient {
 			BufferedReader sin = new BufferedReader (new InputStreamReader(socket.getInputStream ( )));
 			PrintWriter sout = new PrintWriter (socket.getOutputStream ( ), true);
 			// Cree le stream pour lire du texte a partir du clavier 
-			// (on pourrait aussi utiliser Scanner)
 			BufferedReader clavier = new BufferedReader(new InputStreamReader(System.in));			
 			// Informe l'utilisateur de la connection
 			System.out.println("Connecté au serveur " + socket.getInetAddress() + ":"+ socket.getPort());
@@ -31,6 +30,9 @@ class ApplicationClient {
 			System.out.print(sin.readLine());
 			line = clavier.readLine();
 			
+			clavier.close();
+			sin.close();
+			sout.close();
 			socket.close();
 		// Refermer dans tous les cas la socket
 		try { if (socket != null) socket.close(); } 
