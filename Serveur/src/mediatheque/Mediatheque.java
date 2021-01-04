@@ -1,9 +1,11 @@
 package mediatheque;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import documents.IDocument;
+import utilisateurs.Abonne;
 
 public  class Mediatheque {
 	private static List<IDocument> documentsDisponible;
@@ -38,5 +40,14 @@ public  class Mediatheque {
 	}
 	public  void setDocumentsEmpruntes(List<Emprunt> documentsEmpruntes) {
 		Mediatheque.documentsEmpruntes = documentsEmpruntes;
+	}
+	
+	public void emprunter(int v_numero, Abonne abo) {
+		for (IDocument doc : documentsDisponible){
+			if (doc.numero() == v_numero) {
+				documentsEmpruntes.add(new Emprunt(doc, LocalDate.now(), abo));
+				documentsDisponible.remove(doc);
+			}
+		}
 	}
 }
