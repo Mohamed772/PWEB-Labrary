@@ -25,21 +25,14 @@ class ApplicationClient {
 			System.out.println("Connect� au serveur " + socket.getInetAddress() + ":"+ socket.getPort());
 			
 			String line;
-			System.out.println("Bienvenue dans le service de r�servation de documents de la mediatheque");
 			
-			System.out.print(sin.readLine());
+			while (sin.ready()) {
+				System.out.println(sin.readLine());
+
+			}
 			line = clavier.readLine();
 			
-<<<<<<< Updated upstream
 			clavier.close();
-=======
-			sout.println(line);
-			System.out.println("j'ai choisi le chiffre "+line);
-			sout.flush();
-			System.out.print(sin.readLine());
-			System.out.print(sin.readLine());
-
->>>>>>> Stashed changes
 			sin.close();
 			sout.close();
 			socket.close();

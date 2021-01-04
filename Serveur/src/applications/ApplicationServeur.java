@@ -18,9 +18,8 @@ class ApplicationServeur {
 	public static void main(String[] args) {
 		try {
 			initMediatheque();
-			//new Thread(new Serveur(PORTRESERVATION)).start();
+			new Thread(new Serveur(PORTRESERVATION)).start();
 			new Thread(new Serveur(PORTEMPRUNT)).start();
-			//new Thread(new Serveur(PORTRETOUR)).start();
 			new Thread(new Serveur(PORTRETOUR)).start();
 			
 		} catch (IOException e) {
@@ -34,7 +33,7 @@ class ApplicationServeur {
 		list.add(new DVD(0, "JCVD", false));
 		list.add(new DVD(1, "Le man", false));
 		list.add(new DVD(2, "Seul Two", true));
-		mediatheque.setDocumentsDisponible(list);
+		mediatheque.setDocuments(list);
 	}
 	
 	

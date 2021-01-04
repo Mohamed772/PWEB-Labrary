@@ -1,16 +1,12 @@
 package serveur;
 import java.io.*;
 import java.net.Socket;
-<<<<<<< Updated upstream
 import java.time.LocalDate;
-=======
->>>>>>> Stashed changes
 import java.util.List;
 
 import documents.IDocument;
-import mediatheque.Emprunt;
+import exceptions.EmpruntException;
 import mediatheque.Mediatheque;
-import mediatheque.Reservation;
 import utilisateurs.Abonne;
 
 public class ServiceEmprunt implements Runnable {
@@ -26,20 +22,15 @@ public class ServiceEmprunt implements Runnable {
 		try {
 			BufferedReader in = new BufferedReader (new InputStreamReader(client.getInputStream ( )));
 			PrintWriter out = new PrintWriter (client.getOutputStream ( ), true);
+			out.println("Bienvenue dans le service de r�servation de documents de la mediatheque");
+			
 			out.println("Quel film voulez vous ? \n");
 			
-<<<<<<< Updated upstream
-=======
+			showDocuments(out);
+			//String line = in.readLine();
+			//System.out.println(line);
+						
 			
-			String line = in.readLine();
-			System.out.println(line);
-			
-			mediatheque.setDocumentsDisponible((List<IDocument>) mediatheque.getDocumentsDisponible().remove((int)line.charAt(0)));
-			
-			out.println(mediatheque.getDocumentsDisponible().get(0).toString()+" 0");
-			
-			
->>>>>>> Stashed changes
 			in.close();
 			out.close();
 		} catch (IOException e) {
@@ -50,21 +41,25 @@ public class ServiceEmprunt implements Runnable {
 		
 	}
 	
-	public void emprunter(int v_numero, Abonne abo) {
-		List<IDocument> documentsDisponible = mediatheque.getDocumentsDisponible();
-		List<Emprunt> documentsEmpruntes = mediatheque.getDocumentsEmpruntes();
+	public void emprunter(int v_numero, Abonne abo) throws EmpruntException {
+		List<IDocument> documents = mediatheque.getDocuments();
 		
-		for (IDocument doc : documentsDisponible){
+		for (IDocument doc : documents){
 			if (doc.numero() == v_numero) {
-				documentsEmpruntes.add(new Emprunt(doc, LocalDate.now(), abo));
-				documentsDisponible.remove(doc);
+				
+				doc.empruntPar(abo);
 			}
 		} 
-		mediatheque.setDocumentsEmpruntes(documentsEmpruntes);
-		 mediatheque.setDocumentsDisponible(documentsDisponible);
+		 mediatheque.setDocuments(documents);
 	}
 	public void test(){
 		
+	}
+	public void showDocuments(PrintWriter out) {
+		List<IDocument> documents = mediatheque.getDocuments();
+		for (IDocument doc : documents) {
+			out.println(doc.toString());
+		}
 	}
 	
 	protected void finalize() throws Throwable {
