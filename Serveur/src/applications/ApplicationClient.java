@@ -22,15 +22,24 @@ class ApplicationClient {
 			// Cree le stream pour lire du texte a partir du clavier 
 			BufferedReader clavier = new BufferedReader(new InputStreamReader(System.in));			
 			// Informe l'utilisateur de la connection
-			System.out.println("Connecté au serveur " + socket.getInetAddress() + ":"+ socket.getPort());
+			System.out.println("Connectï¿½ au serveur " + socket.getInetAddress() + ":"+ socket.getPort());
 			
 			String line;
-			System.out.println("Bienvenue dans le service de réservation de documents de la mediatheque");
+			System.out.println("Bienvenue dans le service de rï¿½servation de documents de la mediatheque");
 			
 			System.out.print(sin.readLine());
 			line = clavier.readLine();
 			
+<<<<<<< Updated upstream
 			clavier.close();
+=======
+			sout.println(line);
+			System.out.println("j'ai choisi le chiffre "+line);
+			sout.flush();
+			System.out.print(sin.readLine());
+			System.out.print(sin.readLine());
+
+>>>>>>> Stashed changes
 			sin.close();
 			sout.close();
 			socket.close();

@@ -1,7 +1,10 @@
 package serveur;
 import java.io.*;
 import java.net.Socket;
+<<<<<<< Updated upstream
 import java.time.LocalDate;
+=======
+>>>>>>> Stashed changes
 import java.util.List;
 
 import documents.IDocument;
@@ -23,8 +26,20 @@ public class ServiceEmprunt implements Runnable {
 		try {
 			BufferedReader in = new BufferedReader (new InputStreamReader(client.getInputStream ( )));
 			PrintWriter out = new PrintWriter (client.getOutputStream ( ), true);
-			out.println(mediatheque.getDocumentsDisponible().get(0).toString());
+			out.println("Quel film voulez vous ? \n");
 			
+<<<<<<< Updated upstream
+=======
+			
+			String line = in.readLine();
+			System.out.println(line);
+			
+			mediatheque.setDocumentsDisponible((List<IDocument>) mediatheque.getDocumentsDisponible().remove((int)line.charAt(0)));
+			
+			out.println(mediatheque.getDocumentsDisponible().get(0).toString()+" 0");
+			
+			
+>>>>>>> Stashed changes
 			in.close();
 			out.close();
 		} catch (IOException e) {
