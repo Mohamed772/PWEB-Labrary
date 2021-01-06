@@ -3,6 +3,7 @@ package documents;
 import utilisateurs.Abonne;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 import exceptions.*;
 
@@ -14,6 +15,7 @@ public class DVD implements IDocument {
 	@SuppressWarnings("unused")
 	private LocalDate date;
 	private boolean reserve;
+	private static final int AGE_ADULTE = 16;
 	
 	public DVD(int v_numero, String v_titre, boolean v_adulte) {
 		this.numero = v_numero;
@@ -28,9 +30,16 @@ public class DVD implements IDocument {
 	}
 
 	public void reservationPour(Abonne ab) throws ReservationException {
+		if (adulte) {
+			LocalDate currentDate = LocalDate.now();
+			int age = Period.between(ab.getDateNaissance(), currentDate).getYears();
+			if (age < AGE_ADULTE) {
+				throw new ReservationException("Ce document necessite d'avoir au moins 16 ans pour etre reserve.");
+			}
+		}
 		if (reserve) {
-			throw new ReservationException(" Ce document est deja reserve par une autre personne");
-		}else {
+			throw new ReservationException("Ce document est deja reserve par une autre personne.");
+		} else {
 			reserve = true;
 			abonne = ab;
 			date = LocalDate.now();
@@ -38,20 +47,33 @@ public class DVD implements IDocument {
 	}
 
 	public void empruntPar(Abonne ab) throws EmpruntException {
+		if (adulte) {
+			LocalDate currentDate = LocalDate.now();
+			int age = Period.between(ab.getDateNaissance(), currentDate).getYears();
+			if (age < AGE_ADULTE) {
+				throw new EmpruntException("Ce document necessite d'avoir au moins 16 ans pour etre reserve.");
+			}
+		}
 		if (reserve) {
 			if (abonne == ab) {
 				date = LocalDate.now();;
 				reserve = false;
 			}else {
-				throw new EmpruntException(" Ce document est deja reserve par une autre personne");
+				throw new EmpruntException("Ce document est deja reserve par une autre personne");
 			}
 		}
 		if (abonne == null) {
 			this.date = LocalDate.now();
 			this.abonne = ab;
 			
-		}else {
-			throw new EmpruntException(" Ce document est deja emprunte ");
+		}
+		else {
+			if(abonne == ab) {
+				throw new EmpruntException("Ce document est deja emprunte par l'abonne connecte.");
+			}
+			else {
+				throw new EmpruntException("Ce document est deja emprunte par quelqu'un d'autre.");
+			}
 		}
 	}
 

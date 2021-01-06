@@ -1,7 +1,6 @@
 package serveur;
 import java.io.*;
 import java.net.Socket;
-import java.time.LocalDate;
 import java.util.List;
 
 import documents.IDocument;
@@ -12,54 +11,129 @@ import utilisateurs.Abonne;
 public class ServiceEmprunt implements Runnable {
 	private final Socket client;
 	private final Mediatheque mediatheque = Mediatheque.getInstance();
+	private Abonne ab;
 
 	public ServiceEmprunt(Socket socket) {
 		this.client = socket;
+		ab = null;
 	}
 
 	public void run() {
 		
 		try {
+			
+			boolean empruntAgain = true;
+			
 			BufferedReader in = new BufferedReader (new InputStreamReader(client.getInputStream ( )));
 			PrintWriter out = new PrintWriter (client.getOutputStream ( ), true);
-			out.println("Bienvenue dans le service de rï¿½servation de documents de la mediatheque");
+			out.println("Bienvenue dans le service d'emprunt de documents de la mediatheque");
+
+			out.println("Saisir le numero d'abonne :\n");
+
+			String line = in.readLine();
+
+			while (!entryInt(line)) {
+				out.println("Votre saisie ne correspond pas a un nombre entier. Veuillez reessayer :");
+				line = in.readLine();
+			}
+
+			checkAbo(Integer.parseInt(line), out);
+
+			while(empruntAgain) {	
+				
+				out.println("Actuellement connecte sur le profil abonne de " + ab.toString() + "\n\nVoici la liste de tous les DVD appartenant a la mediatheque :\n");
+				
+				showDocuments(out);
 			
-			out.println("Quel film voulez vous ? \n");
-			
-			showDocuments(out);
-			//String line = in.readLine();
-			//System.out.println(line);
-						
-			
+				out.println("\nVeuillez saisir le numero du DVD que vous voulez emprunter :\n");
+				
+				line = in.readLine();
+				
+				while(!entryInt(line)) {
+					out.println("Votre saisie ne correspond pas a un nombre entier. Veuillez reessayer :");
+					line = in.readLine();
+				}
+				
+				emprunter(Integer.parseInt(line), out);
+				
+				out.println("Souhaitez-vous emprunter un autre document ?");
+				
+				while(true) {
+					line = in.readLine();
+					
+					if(line.equalsIgnoreCase("Non")) {
+						empruntAgain = false;
+						out.println("Vous allez être redirigé vers le menu principal.\n\n.................................\n");
+						break;
+					}
+					else if(line.equalsIgnoreCase("Oui")) {
+						break;
+					}
+					else {
+						out.println("Veuillez uniquement répondre par [Oui]/[Non] :");
+					}
+				}		
+			}
+
 			in.close();
 			out.close();
+			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		test();
 		
 	}
 	
-	public void emprunter(int v_numero, Abonne abo) throws EmpruntException {
+	public void emprunter(int v_numeroDoc, PrintWriter out) {
 		List<IDocument> documents = mediatheque.getDocuments();
 		
 		for (IDocument doc : documents){
-			if (doc.numero() == v_numero) {
+			if (doc.numero() == v_numeroDoc) {
 				
-				doc.empruntPar(abo);
+				try {
+					doc.empruntPar(ab);
+				} catch (EmpruntException e) {
+					out.println(e.getMessage());
+				}
 			}
 		} 
-		 mediatheque.setDocuments(documents);
-	}
-	public void test(){
 		
+		mediatheque.setDocuments(documents);
 	}
+	
+	// TODO: Mettre en boolean pour pouvoir faire des boucles
+	public void checkAbo(int v_numeroAbo, PrintWriter out) {
+		boolean isFound = false;
+		
+		List<Abonne> abonnes = mediatheque.getAbonnes();
+		for(Abonne abo : abonnes) {
+			if(abo.getNumero() == v_numeroAbo) {
+				ab = abo;
+				isFound = true;
+				break;
+			}
+		}
+		if(!isFound) {
+			out.println("Le numero saisi ne correspond a aucun abonne inscrit dans notre mediatheque.\n");
+		}
+	}
+	
 	public void showDocuments(PrintWriter out) {
 		List<IDocument> documents = mediatheque.getDocuments();
 		for (IDocument doc : documents) {
 			out.println(doc.toString());
 		}
+	}
+	
+	public boolean entryInt(String line) {
+		try {
+			Integer.parseInt(line);
+			return true;
+		}
+		catch (NumberFormatException e) {
+			return false;
+		}
+		
 	}
 	
 	protected void finalize() throws Throwable {

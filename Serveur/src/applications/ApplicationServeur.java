@@ -8,6 +8,7 @@ import documents.DVD;
 import documents.IDocument;
 import mediatheque.Mediatheque;
 import serveur.*;
+import utilisateurs.Abonne;
 
 
 class ApplicationServeur {
@@ -29,14 +30,23 @@ class ApplicationServeur {
 	
 	public static void initMediatheque() {
 		Mediatheque mediatheque = Mediatheque.getInstance();
-		List<IDocument> list = new ArrayList<IDocument>();
-		list.add(new DVD(0, "JCVD", false));
-		list.add(new DVD(1, "Le man", false));
-		list.add(new DVD(2, "Seul Two", true));
-		mediatheque.setDocuments(list);
+		
+		// Ajout de DOCUMENTS
+		List<IDocument> listDoc = new ArrayList<IDocument>();
+		listDoc.add(new DVD(1, "JCVD", false));
+		listDoc.add(new DVD(2, "Le man", false));
+		listDoc.add(new DVD(3, "Seul Two", true));
+		mediatheque.setDocuments(listDoc);
+		
+		// Ajout d'ABONNE
+		List<Abonne> listAbo = new ArrayList<Abonne>();
+		listAbo.add(new Abonne(1, "Moron", "Lola-Marie", "2000-01-27"));
+		listAbo.add(new Abonne(2, "Ben Belkacem", "Mohamed", "2001-10-09"));
+		listAbo.add(new Abonne(3, "Kieffer", "Emmie", "2001-11-03"));
+		listAbo.add(new Abonne(4, "Moron", "Carla", "2005-10-14"));
+		mediatheque.setAbonnes(listAbo);
+		
+		
 	}
-	
-	
-	
 }
 
