@@ -2,6 +2,7 @@ package documents;
 
 import utilisateurs.Abonne;
 
+import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -12,8 +13,7 @@ public class DVD implements IDocument {
 	private String titre;
 	boolean adulte;
 	private Abonne abonne;
-	@SuppressWarnings("unused")
-	private LocalDate date;
+	private LocalDateTime date;
 	private boolean reserve;
 	private static final int AGE_ADULTE = 16;
 	
@@ -38,11 +38,16 @@ public class DVD implements IDocument {
 			}
 		}
 		if (reserve) {
-			throw new ReservationException("Ce document est deja reserve par une autre personne.");
+			if(abonne == ab) {
+				throw new ReservationException("Ce document est deja emprunte par l'abonne connecte.");
+			}
+			else {
+				throw new ReservationException("Ce document est deja reserve par une autre personne.");
+			}
 		} else {
 			reserve = true;
 			abonne = ab;
-			date = LocalDate.now();
+			date = LocalDateTime.now();
 		}
 	}
 
@@ -51,19 +56,19 @@ public class DVD implements IDocument {
 			LocalDate currentDate = LocalDate.now();
 			int age = Period.between(ab.getDateNaissance(), currentDate).getYears();
 			if (age < AGE_ADULTE) {
-				throw new EmpruntException("Ce document necessite d'avoir au moins 16 ans pour etre reserve.");
+				throw new EmpruntException("Ce document necessite d'avoir au moins 16 ans pour etre emprunte.");
 			}
 		}
 		if (reserve) {
 			if (abonne == ab) {
-				date = LocalDate.now();;
+				date = LocalDateTime.now();;
 				reserve = false;
 			}else {
 				throw new EmpruntException("Ce document est deja reserve par une autre personne");
 			}
 		}
 		if (abonne == null) {
-			this.date = LocalDate.now();
+			this.date = LocalDateTime.now();
 			this.abonne = ab;
 			
 		}

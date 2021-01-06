@@ -20,17 +20,17 @@ public class Serveur implements Runnable {
 			while(true) {
 				switch ((int)(this.listen_socket.getLocalPort())) {
 					case 3000:
-						System.out.println("3000 case");
+						//System.out.println("3000 case");
 						new Thread(new ServiceReservation(listen_socket.accept())).start();
 						
 						break;
 					case 4000:
-						System.out.println("4000 case");
+						//System.out.println("4000 case");
 						new Thread(new ServiceEmprunt(listen_socket.accept())).start();
 						
 						break;
 					case 5000:
-						System.out.println("5000 case");
+						//System.out.println("5000 case");
 						new Thread(new ServiceRetour(listen_socket.accept())).start();
 						
 						break;

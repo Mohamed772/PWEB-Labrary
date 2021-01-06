@@ -17,7 +17,10 @@ class ApplicationClient {
 	public static void main(String[] args) throws IOException {
 
 		while (true) {
-			
+
+			boolean isOver = false;
+			boolean exitProg = false;
+
 			System.out.println("             ____________________________________________________\n"
 					+ "            /                                                    \\\n"
 					+ "           |    _____________________________________________     |\n"
@@ -47,21 +50,21 @@ class ApplicationClient {
 					+ "    |   Veuillez saisir le service desire [Réservation]/[Emprunt]/[Retour]  |\n"
 					+ "    |_______________________________________________________________________|\n\n"
 					+ "                  Saisir [Quitter] pour fermer l'application");
-			
 
-			String line = clavier.nextLine().toUpperCase().replace("É", "E");
+			while (!isOver) {
 
-			boolean isOver = false;
+				String line = clavier.nextLine().toUpperCase().replace("É", "E");
 
-			if (line.equalsIgnoreCase("QUITTER")) {
-				System.out.println("L'application va s'arreter. Merci d'avoir utilise nos services.");
-				break;
-			} else {
-				while (!isOver) {
+				if (line.equalsIgnoreCase("QUITTER")) {
+					System.out.println("L'application va s'arreter. Merci d'avoir utilise nos services.");
+					exitProg = true;
+					break;
+				} else {
 					switch (line) {
 					case "RESERVATION":
 						System.out.println("ok résa");
 						PORT = 3000;
+						startServReserv();
 						isOver = true;
 						break;
 					case "EMPRUNT":
@@ -82,7 +85,8 @@ class ApplicationClient {
 					}
 				}
 			}
-
+			if(exitProg)
+				break;
 		}
 		clavier.close();
 	}
@@ -124,8 +128,46 @@ class ApplicationClient {
 			;
 		}
 	}
-	
+
 	public static void startServEmprunt() throws UnknownHostException, IOException {
+		Socket socket = null;
+
+		socket = new Socket(HOST, PORT);
+
+		// Création des streams pour lire et ecrire du texte dans la socket
+		BufferedReader sin = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		PrintWriter sout = new PrintWriter(socket.getOutputStream(), true);
+
+		System.out.println("Connection au serveur " + socket.getInetAddress() + " : " + socket.getPort());
+
+		while (true) {
+			String testString = sin.readLine();
+			System.out.println(testString);
+			if (testString.startsWith("Votre") || testString.startsWith("Veuillez")
+					|| testString.startsWith("Souhaitez") || testString.startsWith("Saisir")) {
+				String line = clavier.nextLine();
+				sout.println(line);
+			} else if (testString.startsWith("Vous")) {
+				while (sin.ready()) {
+					System.out.println(sin.readLine());
+				}
+				break;
+			}
+		}
+
+		sin.close();
+		sout.close();
+		socket.close();
+		// Refermer dans tous les cas la socket
+		try {
+			if (socket != null)
+				socket.close();
+		} catch (IOException e2) {
+			;
+		}
+	}
+
+	public static void startServReserv() throws UnknownHostException, IOException {
 		Socket socket = null;
 
 		socket = new Socket(HOST, PORT);

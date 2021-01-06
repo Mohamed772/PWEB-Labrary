@@ -23,6 +23,7 @@ public class ServiceEmprunt implements Runnable {
 		try {
 			
 			boolean empruntAgain = true;
+			boolean boolCheckAbo = false;
 			
 			BufferedReader in = new BufferedReader (new InputStreamReader(client.getInputStream ( )));
 			PrintWriter out = new PrintWriter (client.getOutputStream ( ), true);
@@ -30,14 +31,19 @@ public class ServiceEmprunt implements Runnable {
 
 			out.println("Saisir le numero d'abonne :\n");
 
-			String line = in.readLine();
-
-			while (!entryInt(line)) {
-				out.println("Votre saisie ne correspond pas a un nombre entier. Veuillez reessayer :");
+			String line;
+			
+			while (!boolCheckAbo) {
 				line = in.readLine();
-			}
 
-			checkAbo(Integer.parseInt(line), out);
+				while (!entryInt(line)) {
+					out.println("Votre saisie ne correspond pas a un nombre entier. Veuillez reessayer :");
+					line = in.readLine();
+				}
+
+				boolCheckAbo = checkAbo(Integer.parseInt(line), out);
+
+			}
 
 			while(empruntAgain) {	
 				
@@ -102,20 +108,18 @@ public class ServiceEmprunt implements Runnable {
 	}
 	
 	// TODO: Mettre en boolean pour pouvoir faire des boucles
-	public void checkAbo(int v_numeroAbo, PrintWriter out) {
-		boolean isFound = false;
+	public boolean checkAbo(int v_numeroAbo, PrintWriter out) {
 		
 		List<Abonne> abonnes = mediatheque.getAbonnes();
 		for(Abonne abo : abonnes) {
 			if(abo.getNumero() == v_numeroAbo) {
 				ab = abo;
-				isFound = true;
-				break;
+				return true;
 			}
 		}
-		if(!isFound) {
-			out.println("Le numero saisi ne correspond a aucun abonne inscrit dans notre mediatheque.\n");
-		}
+		out.println("Votre saisie ne correspond a aucun abonne inscrit dans notre mediatheque. Veuillez reesayer :\n");
+		return false;
+		
 	}
 	
 	public void showDocuments(PrintWriter out) {
