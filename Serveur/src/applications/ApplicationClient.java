@@ -62,19 +62,16 @@ class ApplicationClient {
 				} else {
 					switch (line) {
 					case "RESERVATION":
-						System.out.println("ok résa");
 						PORT = 3000;
 						startServReserv();
 						isOver = true;
 						break;
 					case "EMPRUNT":
-						System.out.println("ok emprunt");
 						PORT = 4000;
 						startServEmprunt();
 						isOver = true;
 						break;
 					case "RETOUR":
-						System.out.println("ok retour");
 						PORT = 5000;
 						startServRetour();
 						isOver = true;
@@ -100,7 +97,7 @@ class ApplicationClient {
 		BufferedReader sin = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		PrintWriter sout = new PrintWriter(socket.getOutputStream(), true);
 
-		System.out.println("Connection au serveur " + socket.getInetAddress() + " : " + socket.getPort());
+		System.out.println("\nConnection au serveur " + socket.getInetAddress() + " : " + socket.getPort() + "\n");
 
 		while (true) {
 			String testString = sin.readLine();
@@ -138,7 +135,7 @@ class ApplicationClient {
 		BufferedReader sin = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		PrintWriter sout = new PrintWriter(socket.getOutputStream(), true);
 
-		System.out.println("Connection au serveur " + socket.getInetAddress() + " : " + socket.getPort());
+		System.out.println("\nConnection au serveur " + socket.getInetAddress() + " : " + socket.getPort() + "\n");
 
 		while (true) {
 			String testString = sin.readLine();
@@ -176,7 +173,7 @@ class ApplicationClient {
 		BufferedReader sin = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		PrintWriter sout = new PrintWriter(socket.getOutputStream(), true);
 
-		System.out.println("Connection au serveur " + socket.getInetAddress() + " : " + socket.getPort());
+		System.out.println("\nConnection au serveur " + socket.getInetAddress() + " : " + socket.getPort() + "\n");
 
 		while (true) {
 			String testString = sin.readLine();

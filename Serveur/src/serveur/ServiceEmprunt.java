@@ -104,7 +104,6 @@ public class ServiceEmprunt implements Runnable {
 			}
 		} 
 		
-		mediatheque.setDocuments(documents);
 	}
 	
 	// TODO: Mettre en boolean pour pouvoir faire des boucles

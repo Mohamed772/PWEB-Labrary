@@ -89,8 +89,6 @@ public class ServiceRetour implements Runnable {
 		if(!isFound) {
 			out.println("Le numero saisi ne correspond a aucun document recense dans notre mediatheque.\n");
 		}
-		
-		mediatheque.setDocuments(documents);
 
 	}
 	

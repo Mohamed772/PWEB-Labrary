@@ -104,8 +104,6 @@ public class ServiceReservation implements Runnable {
 				}
 			}
 		}
-
-		mediatheque.setDocuments(documents);
 	}
 	
 		public boolean checkAbo(int v_numeroAbo, PrintWriter out) {
