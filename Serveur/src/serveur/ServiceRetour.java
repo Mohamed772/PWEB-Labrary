@@ -8,6 +8,7 @@ import java.util.List;
 
 import documents.IDocument;
 import mediatheque.Mediatheque;
+import utilisateurs.Abonne;
 
 public class ServiceRetour implements Runnable {
 	private final Socket client;
