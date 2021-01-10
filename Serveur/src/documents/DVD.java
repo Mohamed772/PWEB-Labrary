@@ -17,7 +17,9 @@ public class DVD implements IDocument {
 	private LocalDateTime date;
 	private boolean reserve;
 	private static final int AGE_ADULTE = 16;
-	private static final int H_RESERVATION = 2;
+	private static final int H_RESERVATION = 2; // En heures
+	private static final int DELAI_RESA = 2; // En semaines
+
 	private Timer chronoReservation;
 
 	public DVD(int v_numero, String v_titre, boolean v_adulte) {
@@ -54,7 +56,7 @@ public class DVD implements IDocument {
 				abonne = ab;
 				date = LocalDateTime.now();
 				chronoReservation = new Timer();
-				chronoReservation.schedule(new TimerReservation(this), 20 * 1000);// H_RESERVATION*60*60*1000);
+				chronoReservation.schedule(new TimerReservation(this), H_RESERVATION * 60 * 60 * 1000);
 
 			}
 		}
@@ -74,6 +76,8 @@ public class DVD implements IDocument {
 					date = LocalDateTime.now();
 					reserve = false;
 					chronoReservation.cancel();
+					chronoReservation = new Timer();
+					chronoReservation.schedule(new TimerRetourRetard(ab), 20 * 1000);// DELAI_RESA * 7 * 24 * 60 * 60 * 1000);
 
 				} else {
 					throw new EmpruntException("Ce document est deja reserve par une autre personne");
@@ -82,7 +86,8 @@ public class DVD implements IDocument {
 			if (abonne == null) {
 				this.date = LocalDateTime.now();
 				this.abonne = ab;
-				System.out.println("Doc rés ok par " + ab.getNumero());
+				chronoReservation = new Timer();
+				chronoReservation.schedule(new TimerRetourRetard(ab), 30);// DELAI_RESA * 7 * 24 * 60 * 60 * 1000);
 
 			} else {
 				if (abonne == ab) {

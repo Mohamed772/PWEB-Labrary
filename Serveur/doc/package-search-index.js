@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"applications"},{"l":"documents"},{"l":"exceptions"},{"l":"mediatheque"},{"l":"serveur"},{"l":"utilisateurs"}]
